@@ -8,6 +8,11 @@ crstatus=$(cmus-remote -C status)
 
 artist=$(echo -n $(echo "$crstatus" | grep "tag artist" | cut -c 12-))
 
+# Check for albumartist if artist is missing
+if [[ -z "$artist" ]]; then
+    artist=$(echo -n $(echo "$crstatus" | grep "tag albumartist" | cut -c 17-))
+fi
+
 if [[ $artist = *[!\ ]* ]]; then
     playing=$(echo "$crstatus" | grep status | cut -c 8-)
     case "$playing" in
